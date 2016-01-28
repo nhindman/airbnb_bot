@@ -2,7 +2,7 @@
   "name": "botkit",
   "version": "0.0.5",
   "description": "Building blocks for Building Bots",
-  "main": "lib/Botkit.js",
+  "main": "bot.js",
   "dependencies": {
     "body-parser": "^1.14.2",
     "debug": "2.2.0",
