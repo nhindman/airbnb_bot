@@ -77,9 +77,9 @@ var controller = Botkit.slackbot({
 });
 
 var bot = controller.spawn({
-  //token: process.env.token
-  token:"xoxb-19262644917-JvcLiSoeKQuZhoXV4JM7GRUg"
-
+  token: process.env.SLACK_TOKEN,
+  port: process.env.PORT //heroku assings port randomly we will get it using env variable
+  
 }).startRTM();
 
 
