@@ -188,3 +188,9 @@ function formatUptime(uptime) {
     uptime = uptime + ' ' + unit;
     return uptime;
 }
+
+var http = require('http'); // To keep Heroku's free dyno awake 
+http.createServer(function(request, response) {     
+  response.writeHead(200, {'Content-Type': 'text/plain'});     
+  response.end('Ok, dyno is awake.'); 
+}).listen(process.env.PORT || 5000);
