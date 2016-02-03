@@ -119,7 +119,7 @@ function airBnbReact(bot, message, keywords) {
       var searchResult = response.results[0];
       //var image_url =  searchResult.imageUrl,
       var text = searchResult.entityData.url + "\n" + searchResult.descriptionText
-      bot.react(message, text);
+      bot.reply(message, text);
             
    }, function(req, errorMessage) {
           // SEARCH FAILURE HANDLER
