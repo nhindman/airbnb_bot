@@ -70,13 +70,6 @@ This bot demonstrates many of the core features of Botkit:
 // }
 
 
-var http = require('http');
-var server = http.createServer(function(req, res) {
-console.log('got request');
-  res.end('hello');
-});
-server.listen(1337);
-
 var Botkit = require('./lib/Botkit.js');
 var os = require('os');
 
@@ -115,58 +108,30 @@ controller.hears(['hello','hi'],'direct_message,direct_mention,mention',function
     });
 });
 
-controller.hears(['call me (.*)'],'direct_message,direct_mention,mention',function(bot, message) {
-    var matches = message.text.match(/call me (.*)/i);
-    var name = matches[1];
-    controller.storage.users.get(message.user,function(err, user) {
-        if (!user) {
-            user = {
-                id: message.user,
-            };
-        }
-        user.name = name;
-        controller.storage.users.save(user,function(err, id) {
-            bot.reply(message,'Got it. I will call you ' + user.name + ' from now on.');
-        });
-    });
-});
 
-controller.hears(['what is my name','who am i'],'direct_message,direct_mention,mention',function(bot, message) {
+//main logic
+var urx = require('./lib/urx');
 
-    controller.storage.users.get(message.user,function(err, user) {
-        if (user && user.name) {
-            bot.reply(message,'Your name is ' + user.name);
-        } else {
-            bot.reply(message,'I don\'t know yet!');
-        }
-    });
-});
+function airBnbReact(bot, message, keywords) {
+   urx.setApiKey("XuxoT370mZZQq86+dVrV7WuLk16nR0x6hC8dLvcew079lcCPXLQBnpsHQ9nhrv6NiVJLYAC+VHwsxRXNA8v/QQ==|GMi0uG4zDp0kGy3d7YfpS4N8CtOkO3lp");
+    
+    urx.search(keywords, function(response) {
+      var searchResult = response.results[0];
+      //var image_url =  searchResult.imageUrl,
+      var text = searchResult.entityData.url + "\n" + searchResult.descriptionText
+      bot.react(message, text);
+            
+   }, function(req, errorMessage) {
+          // SEARCH FAILURE HANDLER
+          console.log(errorMessage);
+          // res.json({text: "oops, could not find it"});
+   });
+}
 
+controller.hears(['(.*)'],'direct_message,direct_mention,mention',function(bot, message) {
+  var keywords = message.match[0];
 
-controller.hears(['shutdown'],'direct_message,direct_mention,mention',function(bot, message) {
-
-    bot.startConversation(message,function(err, convo) {
-        convo.ask('Are you sure you want me to shutdown?',[
-            {
-                pattern: bot.utterances.yes,
-                callback: function(response, convo) {
-                    convo.say('Bye!');
-                    convo.next();
-                    setTimeout(function() {
-                        process.exit();
-                    },3000);
-                }
-            },
-        {
-            pattern: bot.utterances.no,
-            default: true,
-            callback: function(response, convo) {
-                convo.say('*Phew!*');
-                convo.next();
-            }
-        }
-        ]);
-    });
+  airBnbReact(bot, message, keywords)
 });
 
 
