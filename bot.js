@@ -124,7 +124,7 @@ function airBnbReact(bot, message, keywords) {
         var searchResult = response.results[j];
         var text = searchResult.entityData.url
         bot.reply(message, text);
-      }, j * 1000);
+      }, j * 10);
       })(i);
     }
             
