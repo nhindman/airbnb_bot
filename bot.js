@@ -129,7 +129,7 @@ function airBnbReact(bot, message, keywords) {
 }
 
 controller.hears(['(.*)'],'direct_message,direct_mention,mention',function(bot, message) {
-  var keywords = message.match[0];
+  var keywords = message.match[0] + " domain:airbnb.com";
 
   airBnbReact(bot, message, keywords)
 });
