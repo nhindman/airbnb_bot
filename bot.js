@@ -111,16 +111,18 @@ controller.hears(['hello','hi'],'direct_message,direct_mention,mention',function
 
 //main logic
 var urx = require('./lib/urx');
-var COUNT = 3;
+var COUNT = 5;
 
 function airBnbReact(bot, message, keywords) {
   urx.setApiKey("XuxoT370mZZQq86+dVrV7WuLk16nR0x6hC8dLvcew079lcCPXLQBnpsHQ9nhrv6NiVJLYAC+VHwsxRXNA8v/QQ==|GMi0uG4zDp0kGy3d7YfpS4N8CtOkO3lp");
     
   urx.search(keywords, function(response) {
     for(var i = 0; i < COUNT; ++i) {
-      var searchResult = response.results[0];
-      var text = searchResult.entityData.url
-      bot.reply(message, text);
+      (function() {
+        var searchResult = response.results[0];
+        var text = searchResult.entityData.url
+        bot.reply(message, text);
+      })();
     }
             
    }, function(req, errorMessage) {
