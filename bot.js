@@ -69,6 +69,14 @@ This bot demonstrates many of the core features of Botkit:
 //     process.exit(1);
 // }
 
+
+var http = require('http');
+var server = http.createServer(function(req, res) {
+console.log('got request');
+  res.end('hello');
+});
+server.listen(1337);
+
 var Botkit = require('./lib/Botkit.js');
 var os = require('os');
 
