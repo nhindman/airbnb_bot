@@ -118,11 +118,11 @@ function airBnbReact(bot, message, keywords) {
     
   urx.search(keywords, function(response) {
     for(var i = 0; i < COUNT; ++i) {
-      (function() {
-        var searchResult = response.results[0];
+      setTimeout(function() {
+        var searchResult = response.results[i];
         var text = searchResult.entityData.url
         bot.reply(message, text);
-      })();
+      }, i * 1000);
     }
             
    }, function(req, errorMessage) {
